@@ -1,16 +1,16 @@
-import os, json
+import os, json, re
 from datetime import datetime
-
 # import time, datetime, os, json, csv
 from icecream import ic
 import pandas as pd
-
+import demjson
 from bs4 import BeautifulSoup as bs
 from urllib.request import Request, urlopen
+import ast
 
-from slimit import ast
-from slimit.parser import Parser
-from slimit.visitors import nodevisitor
+# from slimit import ast
+# from slimit.parser import Parser
+# from slimit.visitors import nodevisitor
 
 
 sourceJson = "data/json/latest.json"
@@ -32,6 +32,7 @@ for p in xroads:
 
     # NOW PARSE
     zurl = mbaseurl + '?indice_drum=' +  p['Indicativ drum']['text'] + '&dela=' +p['De la km']['text'] + '&panala=' + p['Pana la km']['text'] + '&acces=3614'
+    zurl = 'http://zx/gov2/dispecerat-cnadr/data/raw/sample-path.html'
     print(zurl)
     req = Request(zurl, headers={'User-Agent': 'Mozilla/5.0'}) #approach url cere pagina html
 
@@ -42,23 +43,20 @@ for p in xroads:
         quit()
     soup = bs(webpage, "html.parser") #parseaza html text si il aseaza frumos in pagina
     zcript = soup.select('body script')
+    zzcript = zcript[0].contents[0].string.replace('\t','').replace('\n','').replace(',}','}').replace(',]',']')
+    strx = '{' + zzcript + '}'
+    json_data = ast.literal_eval(json.dumps(strx))
+
+    match1 = re.search(r'data=\[{.*data2=', json_data, re.DOTALL).group(0).replace('data=','').replace(';var data2','')
+    m1 = match1[:-1] #remove last char from string
+    obj1 = demjson.decode(m1)[0]
+    # obj1['Desc']
+    # obj1['coords']
     # breakpoint()
-    zzcript = zcript[0].contents[0].string.replace("\r\n",' ').replace("\t", ' ')
 
-    # FIXME: 
-    # https://www.py4u.net/discuss/260094
-    # https://www.py4u.net/discuss/219208
-    # https://newbedev.com/extract-content-of-script-with-beautifulsoup
+    match2 = re.search(r'data_polygon=\[{.*function addPointGeom_polygon', json_data, re.DOTALL).group(0).replace('data_polygon=','').replace(';function addPointGeom_polygon','')
+    # breakpoint()
+    m2 = match2
+    obj2 = demjson.decode(m2)[0]
+    # obj2['coords']
     breakpoint()
-    # print(zzcript)
-    # exit()
-    # json = json.loads(zzcript)
-    # parse js
-    # parser = Parser()
-    # tree = parser.parse(zcript)
-    # fields = {getattr(node.left, 'value', ''): getattr(node.right, 'value', '')
-    #         for node in nodevisitor.visit(tree)
-    #         if isinstance(node, ast.Assign)}
-
-    # ic(fields)
-   
