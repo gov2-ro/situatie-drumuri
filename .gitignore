@@ -2,6 +2,7 @@
 /data/*
 assets/*
 test/*
+test-*
 */test/*
 pla/*
 !assets/img/cover-banipartide.svg
