@@ -7,9 +7,8 @@ import pandas as pd
 # from icecream import ic 
 from datetime import datetime
 
-
-baseurl='https://andnet.ro/dispecerat/'
-download_folder = 'data/raw/'
+baseurl='https://dispecerat.andnet.ro/'
+download_folder = '/Users/pax/devbox/gov2/data/situatie-drumuri/raw/'
 
 req = Request(baseurl , headers={'User-Agent': 'Mozilla/5.0'}) #approach url cere pagina html
 
@@ -27,7 +26,7 @@ carneWrapper = soup.find(id="pgprinc")
 carne = carneWrapper.findChildren("div", recursive=False)
 # ic(carne)
 # build output name
-with open(download_folder + datetime.today().strftime('%Y-%m-%d_%H%M') + "-dispecerat.html", "w") as file:
+with open(download_folder + datetime.today().strftime('%Y%m%d %H%M') + " dispecerat.html", "w") as file:
     file.write(str(carne)) 
 with open(download_folder + "_last.html", "w") as file:
     file.write(str(carne)) 

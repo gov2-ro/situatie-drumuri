@@ -14,10 +14,12 @@ from tqdm import tqdm
 # from slimit.parser import Parser
 # from slimit.visitors import nodevisitor
 
+# FIXME: demjson package err
 
-sourceJson = "data/json/latest.json"
-outputJson = "data/rez.json"
+sourceJson = "/Users/pax/devbox/gov2/data/situatie-drumuri/json/latest.json"
+outputJson = "/Users/pax/devbox/gov2/data/situatie-drumuri/rez.json"
 mbaseurl = "https://andnet.ro/dispecerat/dispecerat.php"
+mbaseurl = "https://dispecerat.andnet.ro/"
 niceJson = []
 
 def swapCoords(x):

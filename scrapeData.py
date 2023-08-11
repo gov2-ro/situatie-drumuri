@@ -6,8 +6,8 @@ from icecream import ic
 from bs4 import BeautifulSoup as bs
 import pandas as pd
 
-cachedFile = "data/raw/_last.html"
-outfolder = "data/json/"
+cachedFile = "/Users/pax/devbox/gov2/data/situatie-drumuri/raw/_last.html"
+outfolder = "/Users/pax/devbox/gov2/data/situatie-drumuri/json/"
 
 
 def extract_tablez(table_tag):
@@ -106,7 +106,7 @@ for rrow in divz1[0].findAll("div", {"class": "tablerow"}):
     rid+=1
         
 # with open(outfolder + datetime.today().strftime('%Y-%m-%d_%H%M') + ".json", 'w') as f:
-with open(outfolder + datetime.today().strftime('%Y-%m-%d') + ".json", 'w') as f:
+with open(outfolder + datetime.today().strftime('%Y%m%d %H%M') + ".json", 'w') as f:
     json.dump(zijson, f, indent=4)
 with open(outfolder + 'latest' + ".json", 'w') as f:
     json.dump(zijson, f, indent=4)
